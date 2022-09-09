@@ -1,0 +1,140 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <h1>Book Store</h1>
+    </a>
+  </div>
+</nav>
+
+<div class="container-fluid py-3">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="list-group list-group-light" *ngFor="let book of books">
+        <a
+          href="#"
+          class="list-group-item list-group-item-action flex-column align-items-start"
+          (click)="onSelect(book)"
+        >
+          <div class="d-flex w-100 justify-content-between">
+            <h2 class="mb-1">Ttile: {{ book.title }}</h2>
+            <small>Published: {{ book.publication | date }}</small>
+          </div>
+          <p class="mb-1">Author: {{ book.authorName }}</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <form
+        novalidate
+        #fform="ngForm"
+        [formGroup]="bookFormGroup"
+        (submit)="onSubmit()"
+      >
+        <h2 *ngIf="book">{{ book.title | uppercase }}</h2>
+
+        <div class="row my-3">
+          <div class="col">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="title"
+              formControlName="title"
+              placeholder="Harry Potter"
+            />
+          </div>
+          <mat-error *ngIf="formErrors.title">{{ formErrors.title }}</mat-error>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <label for="authorName" class="form-label">Author</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              id="authorName"
+              formControlName="authorName"
+              placeholder="J.K. Rowling"
+            />
+          </div>
+          <mat-error *ngIf="formErrors.authorName">{{
+            formErrors.authorName
+          }}</mat-error>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <label for="numberOfBooks" class="form-label">Amount of Book</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              id="numberOfBooks"
+              formControlName="numberOfBooks"
+              placeholder="100"
+            />
+          </div>
+          <mat-error *ngIf="formErrors.numberOfBooks">{{
+            formErrors.numberOfBooks
+          }}</mat-error>
+        </div>
+        <!-- <div class="row my-3">
+            <div class="form-group">
+              <label for="publication">Published Date</label>
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  name="dp"
+                  formControlName="publication"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <button
+                  class="btn btn-outline-secondary calendar"
+                  (click)="d.toggle()"
+                  type="button"
+                ></button>
+              </div>
+            </div>
+          </div> -->
+        <div class="row my-3">
+          <div class="col">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              class="form-control form-control-sm"
+              id="description"
+              formControlName="description"
+              rows="3"
+            ></textarea>
+          </div>
+          <mat-error *ngIf="formErrors.description">{{
+            formErrors.description
+          }}</mat-error>
+        </div>
+        <div class="d-flex justify-content-around">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            [disabled]="bookFormGroup.invalid"
+          >
+            Save New
+          </button>
+          <button
+            type="button"
+            (click)="onEdit()"
+            [disabled]="!book || bookFormGroup.invalid"
+            class="btn btn-success btn-lg"
+          >
+            Save</button
+          ><button
+            type="button"
+            (click)="onDelete()"
+            [disabled]="!book"
+            class="btn btn-danger btn-lg"
+          >
+            Delete
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
