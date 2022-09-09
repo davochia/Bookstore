@@ -43,12 +43,18 @@ When complete, change the image repository to your own repository on docker-comp
 
 After you have the book client in your favorite repository, you can run the application with **_docker run -d -it -p 4200:80/tcp --name <app-name> <my-repository>/<app-name>:tag_**. Make sure you tag appropriately or change the port to your choosing and use your repository provider accurately. The example above is assumed to run with Docker CLI. Now when I visit localhost, the application will be displayed.
 
+![Screenshot 2022-09-09 at 14 28 05](https://user-images.githubusercontent.com/47652874/189340825-74225152-73f8-4e78-aa79-1a9e6bb20916.png)
+
+
 ### Book server
 
 After you have the book server in your favorite repository, you can run the application with **_docker run -name bookstore-server -p 9000:9000 bookstore-server:0.1 _** .
 Alternatively, you can just run _docker-compose up_ to start the application including Postgres, prometheus and Grafana. Then visit the port on your browser to view the application i.e., http://localhost:9090
 
 **Note**: If you are not running the application with docker-compose, make sure postgres database is running on your local machine before starting the application. You can run postgres Docker image with the command **_docker run --name myPostgresDb -p 5432:5432 -e POSTGRES_USER=book-postgres -e POSTGRES_PASSWORD=book-postgres -e POSTGRES_DB=book-postgres-db -d postgres_**
+
+![Screenshot 2022-09-09 at 14 21 41](https://user-images.githubusercontent.com/47652874/189340789-8f9ab019-aa0a-4fea-9ab0-2053e0428a1f.png)
+
 
 #### Some usefull links
 
@@ -62,8 +68,15 @@ Alternatively, you can just run _docker-compose up_ to start the application inc
 
 To view scraped data by prometheus, visit the prometheus port 9090 on the host system ip e.g, http://localhost:9090. When open, you can use the execute to view search queries such as **_http_server_requests_seconds_max, process_cpu_usage, logback_events_total_** and so on. Also prometheus has a graph and other functionality that are useful.
 
+![Screenshot 2022-09-09 at 14 29 40](https://user-images.githubusercontent.com/47652874/189340701-3316aef0-af16-425f-93cb-e6ec8d5fa0ec.png)
+
+
+
 ## Grafana
 
 To visualize the scraped data from prometheus on grafana, visit the grafana port (3000) of the host system IP e.g., http://localhost:3000. On the first visit you will be requested to login (username:admin, password: admin) then you will get an optional request to change the password or skip and go to the grafana dashboard.
 
 First we need to set up the datasource at the point to grafana, to do this just click configuration from the setting, add datasource and choose **prometheus**. Set the URL to the host system IP and grafana port in my local system. I have used **http://host.docker.internal:9090**, leave everything default and click save. Create a custom dashboard or choose to import a dashboard created by another developer e.gFor Micrometer use the **JVM (Micrometer) 4701** as the ID and click load. Select prometheus datasource and click import. You can monitor the health of the application with the dashboard.
+
+![Screenshot 2022-09-09 at 14 30 55](https://user-images.githubusercontent.com/47652874/189340663-3bf20ec0-c3a8-4f5a-bb9d-90c479ca4399.png)
+
