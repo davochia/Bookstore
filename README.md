@@ -43,7 +43,8 @@ When complete, change the image repository to your own repository on docker-comp
 
 After you have the book client in your favorite repository, you can run the application with **_docker run -d -it -p 4200:80/tcp --name <app-name> <my-repository>/<app-name>:tag_**. Make sure you tag appropriately or change the port to your choosing and use your repository provider accurately. The example above is assumed to run with Docker CLI. Now when I visit localhost, the application will be displayed.
 
-![Screenshot 2022-09-09 at 14 28 05](https://user-images.githubusercontent.com/47652874/189340825-74225152-73f8-4e78-aa79-1a9e6bb20916.png)
+![Screenshot 2022-09-11 at 22 02 56](https://user-images.githubusercontent.com/47652874/189544776-c014a02b-1050-4ef9-afa1-5a2eb1f5ab5b.png)
+
 
 ### Book server
 
