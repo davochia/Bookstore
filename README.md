@@ -25,7 +25,7 @@ Clone the application from GitHub and cd into the application. Run **_docker-com
 - Swagger UI: http://localhost:9000/swagger-ui/index.html#/
 - Scraped data: http://localhost:9000/actuator/prometheus
 
-**Note**: The imputed data are validated for correctness so make sure the data inserted are correct to enable the buttons. See the prometheus and grafana setup below.
+**Note**: The inputed data are validated for correctness so make sure the data inserted are correct to enable the buttons. See the prometheus and grafana setup below.
 
 ## Create image
 
@@ -80,7 +80,7 @@ First we need to set up the datasource at the point to grafana, to do this just 
 
 ### Install Helm and Helm charts
 
-brew install helm (for Mac with Homebrew) or choco install kubernetes-helm or scoop install helm (Windows with Chocolatey or scoop). Run **_helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm repo update_** . After that Run helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack e.g., **_helm install prometheus prometheus-community/kube-prometheus-stack_**. Use portforward to view the UI for Prometheus and Grafana. The default grafana password: prom-operator and username: admin. When all is running correctly, go on to deploy you application k8s-deployment.yaml file i.e., **_kubectl apply -f k8s-deployment.yaml_**.
+brew install helm (for Mac with Homebrew) or choco install kubernetes-helm or scoop install helm (Windows with Chocolatey or scoop). Run **_helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm repo update_** . After that Run helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack e.g., **_helm install prometheus prometheus-community/kube-prometheus-stack_**. Use portforward to view the UI for Prometheus and Grafana. The default grafana password: prom-operator and username: admin. When all is running correctly, go on to deploy you application k8s-deployment.yaml file i.e., **_kubectl apply -f k8s-deployment.yaml_**. Use portforward to view the client UI and server swagger.
 
 #### Port forward and execute database commands
 
