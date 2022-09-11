@@ -36,6 +36,7 @@ export class BookListComponent implements OnInit {
     this.bookFormGroup.patchValue({
       title: this.book.title,
       authorName: this.book.authorName,
+      publication: this.book.publication,
       description: this.book.description,
       numberOfBooks: this.book.numberOfBooks,
     });
@@ -49,7 +50,7 @@ export class BookListComponent implements OnInit {
       title: this.bookFormGroup.value.title,
       authorName: this.bookFormGroup.value.authorName,
       description: this.bookFormGroup.value.description,
-      // publication: this.book.publication,
+      publication: this.bookFormGroup.value.publication,
       numberOfBooks: this.bookFormGroup.value.numberOfBooks,
     };
     this.bookService.addbook(newBook);
@@ -58,7 +59,7 @@ export class BookListComponent implements OnInit {
       title: '',
       authorName: '',
       description: '',
-      // publication: '',
+      publication: '',
       numberOfBooks: '',
     });
 
@@ -66,7 +67,7 @@ export class BookListComponent implements OnInit {
       title: '',
       authorName: '',
       description: '',
-      // publication: '',
+      publication: '',
       numberOfBooks: 0,
     };
   }
@@ -80,7 +81,7 @@ export class BookListComponent implements OnInit {
       title: '',
       authorName: '',
       description: '',
-      // publication: '',
+      publication: '',
       numberOfBooks: 0,
     };
   }
@@ -96,7 +97,7 @@ export class BookListComponent implements OnInit {
       title: this.bookFormGroup.value.title,
       authorName: this.bookFormGroup.value.authorName,
       description: this.bookFormGroup.value.description,
-      // publication: this.book.publication,
+      publication: this.bookFormGroup.value.publication,
       numberOfBooks: this.bookFormGroup.value.numberOfBooks,
     };
     this.bookService.updateBook(newBook);
@@ -105,14 +106,14 @@ export class BookListComponent implements OnInit {
       title: '',
       authorName: '',
       description: '',
-      // publication: '',
+      publication: '',
       numberOfBooks: '',
     });
     this.book = {
       title: '',
       authorName: '',
       description: '',
-      // publication: '',
+      publication: '',
       numberOfBooks: 0,
     };
   }
@@ -146,7 +147,7 @@ export class BookListComponent implements OnInit {
           Validators.maxLength(500),
         ],
       ],
-      // publication: [, [Validators.required]],
+      publication: [<Date | null>null, [Validators.required]],
       numberOfBooks: ['', Validators.required],
     });
 
@@ -193,7 +194,7 @@ export class BookListComponent implements OnInit {
     title: '',
     authorName: '',
     description: '',
-    // publication: '',
+    publication: '',
     numberOfBooks: '',
   };
 
@@ -218,9 +219,9 @@ export class BookListComponent implements OnInit {
       maxlength: 'Description cannot be more than 500 characters long.',
     },
 
-    // publication: {
-    //   required: 'Published date is required.',
-    // },
+    publication: {
+      required: 'Published date is required.',
+    },
 
     numberOfBooks: {
       required: 'Amount of books is required.',

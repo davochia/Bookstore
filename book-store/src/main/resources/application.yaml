@@ -16,7 +16,7 @@ spring:
     username: ${POSTGRES_USER:book-postgres}
     password: ${POSTGRES_PASSWORD:book-postgres}
     driver-class-name: org.postgresql.Driver
-    plateform: postgres
+    platform: postgres
 
   jpa:
     hibernate:
