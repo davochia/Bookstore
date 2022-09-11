@@ -1,0 +1,112 @@
+server:
+  port: 9000
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: book-server
+    # Database Postgres
+  datasource:
+    # url: jdbc:postgresql://localhost:5432/book-postgres-db
+    # username: book-postgres
+    # password: book-postgres
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_DB:book-postgres-db}
+    username: ${POSTGRES_USER:book-postgres}
+    password: ${POSTGRES_PASSWORD:book-postgres}
+    driver-class-name: org.postgresql.Driver
+    plateform: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+# ---
+# spring:
+#   name: book-server
+#   config:
+#     activate:
+#       on-profile: dev
+#     datasource:
+#       url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}
+#       username: ${POSTGRES_USER}
+#       password: ${POSTGRES_PASSWORD}
+#       driver-class-name: org.postgresql.Driver
+#       plateform: postgres
+
+#   jpa:
+#     hibernate:
+#       ddl-auto: create
+#     show-sql: true
+#     defer-datasource-initialization: true
+
+#     properties:
+#       hibernate:
+#         dialect: org.hibernate.dialect.PostgreSQLDialect
+#         format_sql: true
+#         jdbc:
+#           lob:
+#             non_contextual_creation: true
+
+### Postgres Docker image
+#docker run --name myPostgresDb -p 5432:5432 -e POSTGRES_USER=book-postgres -e POSTGRES_PASSWORD=book-postgres -e POSTGRES_DB=book-postgres-db -d postgres
+
+################# Swagger ########################
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+#UI link to swagger API documentation: http://server:port/context-path/swagger-ui.html or http://server:port/context-path/v3/api-docs
+
+################ Prometheus ############################
+management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+    web:
+      server:
+        auto-time-requests: true
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+          client:
+            requests: true
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+    enabled-by-default: true
+    jmx:
+      exposure:
+        include: health
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+  health:
+    enabled: true
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true

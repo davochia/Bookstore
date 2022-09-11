@@ -4,7 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN #mvn -e -B dependency:resolve
 COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests=true
 
 
 FROM openjdk:17-jdk-alpine

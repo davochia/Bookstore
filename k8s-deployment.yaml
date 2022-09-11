@@ -1,0 +1,273 @@
+#
+#
+# Client Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-client
+spec:
+  selector:
+    matchLabels:
+      app: bookstore-client
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bookstore-client
+    spec:
+      containers:
+        - name: bookstore-client
+          image: "wisekingdavid/bookstore-client:0.1"
+          imagePullPolicy: Always
+          ports:
+            - name: http-bookstore
+              containerPort: 80
+
+# Client service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-client
+spec:
+  selector:
+    app: bookstore-client
+  type: ClusterIP
+  ports:
+    - name: http-traffic
+      port: 80
+      targetPort: http-bookstore
+
+#
+#
+#
+# Postgres
+---
+# Postgres ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-conf
+data:
+  POSTGRES_HOST: 172.17.0.9 # database ip
+  POSTGRES_DB: book-postgres-db
+
+---
+# Postgres Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+data:
+  POSTGRES_USER: Ym9vay1wb3N0Z3Jlcw==
+  POSTGRES_PASSWORD: Ym9vay1wb3N0Z3Jlcw==
+  # password and username from echo -n "username" | base64
+
+# Postgres Volume
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-volume
+  labels:
+    app: postgres
+    tier: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: "/mnt/data"
+
+# Postgres Volume claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-volume-claim
+  labels:
+    app: postgres
+    tier: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+
+# Postgres Service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+    tier: database
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres
+    tier: database
+  type: NodePort
+
+# Postgres Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+    tier: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-conf
+                  key: POSTGRES_DB
+
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdata
+      volumes:
+        - name: postgresdata
+          persistentVolumeClaim:
+            claimName: postgres-volume-claim
+#
+#
+#
+# Server Deployment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-server
+  labels:
+    name: bookstore-server
+spec:
+  selector:
+    matchLabels:
+      app: bookstore-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bookstore-server
+    spec:
+      containers:
+        - name: bookstore-server
+          image: "wisekingdavid/bookstore-server:0.1"
+          imagePullPolicy: Always
+          ports:
+            - name: http-server
+              containerPort: 9000
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 9000
+            initialDelaySeconds: 60
+            timeoutSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 9000
+
+          env:
+            # - name: SPRING_PROFILE
+            #   value: dev
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-conf
+                  key: POSTGRES_DB
+
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-conf
+                  key: POSTGRES_HOST
+
+# App service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-server
+spec:
+  selector:
+    app: bookstore-server
+  ports:
+    - name: http-traffic
+      port: 9000
+      targetPort: http-server
+
+# Custom Resource  Definition
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bookstore-server
+  #  namespace: <namespace>
+  labels:
+    heritage: Helm
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: bookstore-server
+  jobLabel: bookstore-server
+  namespaceSelector:
+    matchNames:
+      - default
+  endpoints:
+    - path: "/actuator/prometheus"
+      port: "http-traffic"
+      scheme: http
+      interval: 15s

@@ -45,7 +45,6 @@ After you have the book client in your favorite repository, you can run the appl
 
 ![Screenshot 2022-09-09 at 14 28 05](https://user-images.githubusercontent.com/47652874/189340825-74225152-73f8-4e78-aa79-1a9e6bb20916.png)
 
-
 ### Book server
 
 After you have the book server in your favorite repository, you can run the application with **_docker run -name bookstore-server -p 9000:9000 bookstore-server:0.1 _** .
@@ -54,7 +53,6 @@ Alternatively, you can just run _docker-compose up_ to start the application inc
 **Note**: If you are not running the application with docker-compose, make sure postgres database is running on your local machine before starting the application. You can run postgres Docker image with the command **_docker run --name myPostgresDb -p 5432:5432 -e POSTGRES_USER=book-postgres -e POSTGRES_PASSWORD=book-postgres -e POSTGRES_DB=book-postgres-db -d postgres_**
 
 ![Screenshot 2022-09-09 at 14 21 41](https://user-images.githubusercontent.com/47652874/189340789-8f9ab019-aa0a-4fea-9ab0-2053e0428a1f.png)
-
 
 #### Some usefull links
 
@@ -70,8 +68,6 @@ To view scraped data by prometheus, visit the prometheus port 9090 on the host s
 
 ![Screenshot 2022-09-09 at 14 29 40](https://user-images.githubusercontent.com/47652874/189340701-3316aef0-af16-425f-93cb-e6ec8d5fa0ec.png)
 
-
-
 ## Grafana
 
 To visualize the scraped data from prometheus on grafana, visit the grafana port (3000) of the host system IP e.g., http://localhost:3000. On the first visit you will be requested to login (username:admin, password: admin) then you will get an optional request to change the password or skip and go to the grafana dashboard.
@@ -80,3 +76,14 @@ First we need to set up the datasource at the point to grafana, to do this just 
 
 ![Screenshot 2022-09-09 at 14 30 55](https://user-images.githubusercontent.com/47652874/189340663-3bf20ec0-c3a8-4f5a-bb9d-90c479ca4399.png)
 
+## Kubernetes deployment
+
+### Install Helm and Helm charts
+
+brew install helm (for Mac with Homebrew) or choco install kubernetes-helm or scoop install helm (Windows with Chocolatey or scoop). Run **_helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm repo update_** . After that Run helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack e.g., **_helm install prometheus prometheus-community/kube-prometheus-stack_**. Use portforward to view the UI for Prometheus and Grafana. The default grafana password: prom-operator and username: admin. When all is running correctly, go on to deploy you application k8s-deployment.yaml file i.e., **_kubectl apply -f k8s-deployment.yaml_**.
+
+#### Port forward and execute database commands
+
+**_kubectl port-forward --namespace default podname 5432:5432_**
+
+**_psql -h 127.0.0.1 -p 5432 -U db-user database-name_**
