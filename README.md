@@ -11,7 +11,7 @@ This is a simple full stack application for a bookstore. It includes the basic C
 3. Postgres DB
 4. Angular 14.2.3 (Bootstrap and Angular Material)
 5. Typescript 4.7.4
-6. Docker and Docker CLI
+6. Docker and Kubernetes
 7. Prometheus
 8. Grafana
 
