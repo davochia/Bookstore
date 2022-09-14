@@ -1,0 +1,12 @@
+<div class="list-group list-group-light" (click)="onClickBook(book)">
+  <a
+    href="#"
+    class="list-group-item list-group-item-action flex-column align-items-start"
+  >
+    <div class="d-flex w-100 justify-content-between">
+      <h2 class="mb-1">Title: {{ book.title }}</h2>
+      <small>Published: {{ book.publication | date }}</small>
+    </div>
+    <p class="mb-1">Author: {{ book.authorName }}</p>
+  </a>
+</div>

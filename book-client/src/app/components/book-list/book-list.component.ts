@@ -1,8 +1,7 @@
+import { IBook } from './../../shared/classes/book';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BookService } from 'src/app/service/book.service';
-import { IBook } from 'src/app/shared/classes/book';
 
 @Component({
   selector: 'app-book-list',
@@ -33,6 +32,7 @@ export class BookListComponent implements OnInit {
    */
   onSelect(book: IBook): void {
     this.book = book;
+
     this.bookFormGroup.patchValue({
       title: this.book.title,
       authorName: this.book.authorName,
@@ -62,14 +62,7 @@ export class BookListComponent implements OnInit {
       publication: '',
       numberOfBooks: '',
     });
-
-    this.book = {
-      title: '',
-      authorName: '',
-      description: '',
-      publication: '',
-      numberOfBooks: 0,
-    };
+    this.registerFormDirective.reset();
   }
 
   /**
@@ -77,21 +70,13 @@ export class BookListComponent implements OnInit {
    */
   onDelete() {
     this.bookService.deleteBook(this.book);
-    this.book = {
-      title: '',
-      authorName: '',
-      description: '',
-      publication: '',
-      numberOfBooks: 0,
-    };
+    this.registerFormDirective.reset();
   }
 
   /**
    * Edit book
    */
   onEdit() {
-    // this.book = this.bookFormGroup.value;
-
     const newBook = {
       id: this.book.id,
       title: this.bookFormGroup.value.title,
@@ -109,13 +94,7 @@ export class BookListComponent implements OnInit {
       publication: '',
       numberOfBooks: '',
     });
-    this.book = {
-      title: '',
-      authorName: '',
-      description: '',
-      publication: '',
-      numberOfBooks: 0,
-    };
+    this.registerFormDirective.reset();
   }
 
   /**
@@ -128,7 +107,7 @@ export class BookListComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(2),
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ],
       ],
       authorName: [
@@ -136,7 +115,7 @@ export class BookListComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(2),
-          Validators.maxLength(25),
+          Validators.maxLength(50),
         ],
       ],
       description: [
@@ -144,11 +123,18 @@ export class BookListComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(20),
-          Validators.maxLength(500),
+          Validators.maxLength(1000),
         ],
       ],
       publication: [<Date | null>null, [Validators.required]],
-      numberOfBooks: ['', Validators.required],
+      numberOfBooks: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(1000000),
+        ],
+      ],
     });
 
     this.bookFormGroup.valueChanges.subscribe((data) =>
@@ -226,7 +212,7 @@ export class BookListComponent implements OnInit {
     numberOfBooks: {
       required: 'Amount of books is required.',
       minlength: 'Book must be at least 1 instance.',
-      maxlength: 'Books cannot be more than 100000 instance.',
+      maxlength: 'Books cannot be more than 1000000 instance.',
     },
   };
 }

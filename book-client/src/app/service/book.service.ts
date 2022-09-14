@@ -24,6 +24,15 @@ export class BookService {
       publication: '2007-06-21',
       numberOfBooks: 10,
     },
+    {
+      id: 1,
+      title: 'The Lord of the Rings: The Fellowship of the Ring',
+      authorName: ' J. R. R. Tolkien',
+      description:
+        'A young hobbit, Frodo, who has found the One Ring that belongs to the Dark Lord Sauron, begins his journey with eight companions to Mount Doom, the only place where it can be destroyed.',
+      publication: '2001-12-19',
+      numberOfBooks: 10,
+    },
   ];
 
   book$ = new BehaviorSubject<any>(this.book);
@@ -115,7 +124,6 @@ export class BookService {
   getAllBooks() {
     this.http.get<IBook[]>(this.bookURL).subscribe({
       next: (book) => {
-        console.log(book);
         this.book$.next(book);
       },
       error: (err: HttpErrorResponse) => {

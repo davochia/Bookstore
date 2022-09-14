@@ -13,14 +13,21 @@ scrape_configs:
         labels:
           instance: "book-server-monitor"
 
-  - job_name: "book-ui-monitor" # Friendly name for the prometheus
-    metrics_path: "/actuator/prometheus" # Path to scrape the data from the application
-    scrape_interval: 5s
-    static_configs:
-      - targets: ["host.docker.internal:9100"]
-        labels:
-          instance: "book-ui-monitor"
+  # - job_name: "book-ui-monitor"
+  #   metrics_path: "/metrics"
+  #   static_configs:
+  #     - targets: ["host.docker.internal:9113"]
+  #       labels:
+  #         instance: "book-ui-monitor"
 
-  - job_name: prometheus
+  - job_name: prometheus-monitor
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["host.docker.internal:9090"]
+        labels:
+          instance: "prometheus-monitor"
+
+  - job_name: postgres-monitor
+    static_configs:
+      - targets: ["host.docker.internal:9187"]
+        labels:
+          instance: "postgres-monitor"

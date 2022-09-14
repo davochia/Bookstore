@@ -45,7 +45,6 @@ After you have the book client in your favorite repository, you can run the appl
 
 ![Screenshot 2022-09-11 at 22 02 56](https://user-images.githubusercontent.com/47652874/189544776-c014a02b-1050-4ef9-afa1-5a2eb1f5ab5b.png)
 
-
 ### Book server
 
 After you have the book server in your favorite repository, you can run the application with **_docker run -name bookstore-server -p 9000:9000 bookstore-server:0.1 _** .
@@ -73,7 +72,7 @@ To view scraped data by prometheus, visit the prometheus port 9090 on the host s
 
 To visualize the scraped data from prometheus on grafana, visit the grafana port (3000) of the host system IP e.g., http://localhost:3000. On the first visit you will be requested to login (username:admin, password: admin) then you will get an optional request to change the password or skip and go to the grafana dashboard.
 
-First we need to set up the datasource at the point to grafana, to do this just click configuration from the setting, add datasource and choose **prometheus**. Set the URL to the host system IP and grafana port in my local system. I have used **http://host.docker.internal:9090**, leave everything default and click save. Create a custom dashboard or choose to import a dashboard created by another developer e.gFor Micrometer use the **JVM (Micrometer) 4701** as the ID and click load. Select prometheus datasource and click import. You can monitor the health of the application with the dashboard.
+First we need to set up the datasource at the point to grafana, to do this just click configuration from the setting, add datasource and choose **prometheus**. Set the URL to the host system IP and grafana port in my local system. I have used **http://host.docker.internal:9090**, leave everything default and click save. Create a custom dashboard or choose to import a dashboard created by another developer e.gFor Micrometer use the **JVM (Micrometer) - 4701 and PostgreSQL Database - 9626 and Nginx - ( 9614,14900)** as the ID and click load. Select prometheus datasource and click import. You can monitor the health of the application with the dashboard.
 
 ![Screenshot 2022-09-09 at 14 30 55](https://user-images.githubusercontent.com/47652874/189340663-3bf20ec0-c3a8-4f5a-bb9d-90c479ca4399.png)
 

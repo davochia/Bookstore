@@ -1,27 +1,12 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <h1>Book Store</h1>
-    </a>
-  </div>
-</nav>
-
 <div class="container-fluid py-3">
   <div class="row">
+    <h1>Books</h1>
     <div class="col-12 col-md-6">
-      <div class="list-group list-group-light" *ngFor="let book of books">
-        <a
-          href="#"
-          class="list-group-item list-group-item-action flex-column align-items-start"
-          (click)="onSelect(book)"
-        >
-          <div class="d-flex w-100 justify-content-between">
-            <h2 class="mb-1">Ttile: {{ book.title }}</h2>
-            <small>Published: {{ book.publication | date }}</small>
-          </div>
-          <p class="mb-1">Author: {{ book.authorName }}</p>
-        </a>
-      </div>
+      <app-book
+        *ngFor="let book of books"
+        [book]="book"
+        (onBookClick)="onSelect(book)"
+      ></app-book>
     </div>
 
     <div class="col-12 col-md-6">
@@ -31,7 +16,9 @@
         [formGroup]="bookFormGroup"
         (submit)="onSubmit()"
       >
-        <h2 *ngIf="book">{{ book.title | uppercase }}</h2>
+        <h2 *ngIf="bookFormGroup">
+          {{ bookFormGroup.value.title | uppercase }}
+        </h2>
 
         <div class="row my-3">
           <div class="col">
