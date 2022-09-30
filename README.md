@@ -14,6 +14,8 @@ This is a simple full stack application for a bookstore. It includes the basic C
 6. Docker and Kubernetes
 7. Prometheus
 8. Grafana
+9. Skywalking (with elasticsearch)
+10. Gartling (test loading)
 
 ### Run application with a single command
 
@@ -62,6 +64,24 @@ Alternatively, you can just run _docker-compose up_ to start the application inc
 
 **Note**: This is assumed that you are using the docker CLI. If you are using other providers make sure you check their documentation for building, tagging and pushing images to their repository.
 
+## Kubernetes deployment
+
+### Install Helm and Helm charts
+
+brew install helm (for Mac with Homebrew) or choco install kubernetes-helm or scoop install helm (Windows with Chocolatey or scoop). Run **_helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm repo update_** . After that Run helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack e.g., **_helm install prometheus prometheus-community/kube-prometheus-stack_**. Use portforward to view the UI for Prometheus and Grafana. The default grafana password: prom-operator and username: admin. When all is running correctly, go on to deploy you application k8s-deployment.yaml file i.e., **_kubectl apply -f k8s-deployment.yaml_**. Use portforward to view the client UI and server swagger.
+
+#### Port forward and execute database commands
+
+**_kubectl port-forward --namespace default podname 5432:5432_**
+
+**_psql -h 127.0.0.1 -p 5432 -U db-user database-name_**
+
+# Monitoring
+
+The neccessary configuration for monitoring has been completed, running **_ docker-compose up _** will start up all services including prometheus, grafana and skywalking. You can decide prometheus and grafana or skywalking with elasticsearch, Aop and the skywalking UI.
+
+**_Note_**: You need few minutes after the application is running to be detected by the monitoring tools.
+
 ## Prometheus
 
 To view scraped data by prometheus, visit the prometheus port 9090 on the host system ip e.g, http://localhost:9090. When open, you can use the execute to view search queries such as **_http_server_requests_seconds_max, process_cpu_usage, logback_events_total_** and so on. Also prometheus has a graph and other functionality that are useful.
@@ -76,14 +96,17 @@ First we need to set up the datasource at the point to grafana, to do this just 
 
 ![Screenshot 2022-09-09 at 14 30 55](https://user-images.githubusercontent.com/47652874/189340663-3bf20ec0-c3a8-4f5a-bb9d-90c479ca4399.png)
 
-## Kubernetes deployment
+## Skywalking
 
-### Install Helm and Helm charts
+To monitor the server with skywalking, visit the skywalking UI port 8088 on your browser i.e., localhost:8088. You will see the service name on the general service.
 
-brew install helm (for Mac with Homebrew) or choco install kubernetes-helm or scoop install helm (Windows with Chocolatey or scoop). Run **_helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm repo update_** . After that Run helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack e.g., **_helm install prometheus prometheus-community/kube-prometheus-stack_**. Use portforward to view the UI for Prometheus and Grafana. The default grafana password: prom-operator and username: admin. When all is running correctly, go on to deploy you application k8s-deployment.yaml file i.e., **_kubectl apply -f k8s-deployment.yaml_**. Use portforward to view the client UI and server swagger.
+![](../../Screenshot%202022-09-30%20at%2009.28.54.png)
+![](../../Screenshot%202022-09-30%20at%2009.29.29.png)
+![](../../Screenshot%202022-09-30%20at%2009.29.48.png)
 
-#### Port forward and execute database commands
+## Gartling
 
-**_kubectl port-forward --namespace default podname 5432:5432_**
+In the cloned folder, you will see the folder containing the gartling files. cd into the bin and run **_./gartling.sh_** for mac or start the **_gartling.bat_** for windows. You can run the simulation already recorded i.e., bookstoreSimulation.
 
-**_psql -h 127.0.0.1 -p 5432 -U db-user database-name_**
+![](../../Screenshot%202022-09-30%20at%2010.39.04.png)
+![](../../Screenshot%202022-09-30%20at%2010.51.56.png)

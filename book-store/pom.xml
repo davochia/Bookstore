@@ -14,7 +14,7 @@
 	<name>book-store</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -85,6 +85,22 @@
 			<artifactId>junit</artifactId>
 			<version>4.13</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- skywalking -->
+		<!-- https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-trace -->
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-trace</artifactId>
+			<version>8.12.0</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-micrometer-registry -->
+		<dependency>
+			<groupId>org.apache.skywalking</groupId>
+			<artifactId>apm-toolkit-micrometer-registry</artifactId>
+			<version>8.12.0</version>
 		</dependency>
 	</dependencies>
 

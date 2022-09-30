@@ -1,0 +1,10 @@
+{
+  "simulation": "bookstoreSimulation",
+  "simulationId": "bookstoresimulation-20220930073034584",
+  "start": 1664523035626,
+  "description": "Test performance of bookstore app with 3 users",
+  "scenarios": ["bookstoreSimulation"],
+  "assertions": [
+
+  ]
+}

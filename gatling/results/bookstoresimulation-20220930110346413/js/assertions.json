@@ -1,0 +1,10 @@
+{
+  "simulation": "bookstoreSimulation",
+  "simulationId": "bookstoresimulation-20220930110346413",
+  "start": 1664535827843,
+  "description": "",
+  "scenarios": ["bookstoreSimulation"],
+  "assertions": [
+
+  ]
+}

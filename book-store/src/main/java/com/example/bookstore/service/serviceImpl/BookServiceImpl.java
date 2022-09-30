@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookServiceI {
     public BookDto modifyBook(Integer id, BookDto newBook) {
         Optional<Book> optionalBook = bookRepository.findById(id);
 
-        if(optionalBook.isEmpty())return null;
+        if(optionalBook == null)return null;
 
         Book book = optionalBook.get();
 
@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookServiceI {
     @Override
     public void removeBook(Integer id) throws BookNotFoundException {
         Optional<Book> optionalBook = bookRepository.findById(id);
-        if (optionalBook.isEmpty()) throw new BookNotFoundException(id);
+        if (optionalBook == null) throw new BookNotFoundException(id);
         bookRepository.deleteAllById(Collections.singleton(id));
     }
 
@@ -73,7 +73,7 @@ public class BookServiceImpl implements BookServiceI {
     public List<BookDto> findBookByTitle(String bookTitle) throws BookNotFoundException {
         List<Book> bookList = bookRepository.findByTitle(bookTitle);
 
-        if(bookList.isEmpty()) return null;
+        if(bookList == null) return null;
 
         List<BookDto> bookDtoList = new ArrayList<BookDto>();
         bookList.forEach(book -> bookDtoList.add(BookDto.getBookDto(book)));
