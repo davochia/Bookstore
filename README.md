@@ -100,13 +100,16 @@ First we need to set up the datasource at the point to grafana, to do this just 
 
 To monitor the server with skywalking, visit the skywalking UI port 8088 on your browser i.e., localhost:8088. You will see the service name on the general service.
 
-![](../../Screenshot%202022-09-30%20at%2009.28.54.png)
-![](../../Screenshot%202022-09-30%20at%2009.29.29.png)
-![](../../Screenshot%202022-09-30%20at%2009.29.48.png)
+![Screenshot 2022-09-30 at 09 28 54](https://user-images.githubusercontent.com/47652874/193261790-ce452a55-adb3-47cd-bd80-41e8fde88ca3.png)
+![Screenshot 2022-09-30 at 09 29 29](https://user-images.githubusercontent.com/47652874/193261833-f35153e4-2361-498a-bd1a-b6a92d583202.png)
+![Screenshot 2022-09-30 at 09 29 48](https://user-images.githubusercontent.com/47652874/193261850-f711d5f0-111f-4e1e-9f3e-ebcc46227777.png)
+
+
 
 ## Gartling
 
 In the cloned folder, you will see the folder containing the gartling files. cd into the bin and run **_./gartling.sh_** for mac or start the **_gartling.bat_** for windows. You can run the simulation already recorded i.e., bookstoreSimulation.
 
-![](../../Screenshot%202022-09-30%20at%2010.39.04.png)
-![](../../Screenshot%202022-09-30%20at%2010.51.56.png)
+![Screenshot 2022-09-30 at 10 39 04](https://user-images.githubusercontent.com/47652874/193261721-ca40363e-7fb1-4d4c-8002-0a646463ed64.png)
+![Screenshot 2022-09-30 at 10 51 56](https://user-images.githubusercontent.com/47652874/193261743-689a38be-a362-487e-9d5b-16fa540a7b8e.png)
+
